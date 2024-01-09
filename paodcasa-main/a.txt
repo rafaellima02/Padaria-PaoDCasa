@@ -1,0 +1,5 @@
+ip pedro  192.168
+
+ip rafa
+
+ip daniel

@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Categoria {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  nome String
+
+  imagem   Imagem[]
+  produtos Produto[]
+}
+
+model Produto {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  nome            String
+  descricao       String?
+  preco           String
+  disponibilidade Boolean
+  url             String
+
+  categoria    Categoria @relation(fields: [categoria_id], references: [id])
+  categoria_id String    @db.ObjectId
+
+  imagem Imagem[]
+
+  produtoCarrinho ProdutoCarrinho[]
+
+  produtoPedidos ProdutoPedido[]
+}
+
+model Imagem {
+  id  String  @id @default(auto()) @map("_id") @db.ObjectId
+  url String
+  alt String?
+
+  cliente    Cliente? @relation(fields: [cliente_id], references: [id])
+  cliente_id String?  @db.ObjectId
+
+  produto    Produto? @relation(fields: [produto_id], references: [id])
+  produto_id String?  @db.ObjectId
+
+  categoria    Categoria? @relation(fields: [categoria_id], references: [id])
+  categoria_id String?    @db.ObjectId
+}
+
+model Carrinho {
+  id         String            @id @default(auto()) @map("_id") @db.ObjectId
+  cliente    Cliente           @relation(fields: [cliente_id], references: [id])
+  cliente_id String            @db.ObjectId
+  produtos   ProdutoCarrinho[]
+}
+
+model ProdutoCarrinho {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantidade  Int
+  preco       String
+  produto     Produto  @relation(fields: [produto_id], references: [id])
+  produto_id  String   @db.ObjectId
+  carrinho    Carrinho @relation(fields: [carrinho_id], references: [id])
+  carrinho_id String   @db.ObjectId
+}
+
+model Pedido {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  dataPedido DateTime
+  total      String
+  status     String
+  confirmado Boolean  @default(false)
+  finalizado Boolean  @default(false)
+
+  itens ProdutoPedido[]
+
+  cliente    Cliente @relation(fields: [cliente_id], references: [id])
+  cliente_id String  @db.ObjectId
+}
+
+model Cliente {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  nome      String?
+  email     String  @unique
+  telefone  String?
+  senha     String
+  data_Nasc String?
+  genero    String?
+  pagamento String?
+  url       String?
+
+  imagem Imagem[]
+
+  carrinho  Carrinho[]
+  pedidos   Pedido[]
+  enderecos Endereco[]
+}
+
+model ProdutoPedido {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  quantidade Int
+
+  pedido    Pedido? @relation(fields: [pedido_id], references: [id])
+  pedido_id String? @db.ObjectId
+
+  produto    Produto @relation(fields: [produto_id], references: [id])
+  produto_id String  @db.ObjectId
+
+  endereco_entrega Endereco? @relation(fields: [endereco_id], references: [id])
+  endereco_id      String?   @db.ObjectId
+}
+
+model Endereco {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  rua    String
+  cidade String
+  estado String
+  cep    String
+
+  cliente    Cliente @relation(fields: [cliente_id], references: [id])
+  cliente_id String  @db.ObjectId
+
+  produtoPedidos ProdutoPedido[]
+}
+
+model MetodoPagamento {
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  tipo           String
+  nomeTitular    String
+  numero         String
+  data_expiracao String?
+}

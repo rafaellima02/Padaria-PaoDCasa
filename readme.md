@@ -1,3 +1,15 @@
+
+
+<img width="264" height="537" alt="image" src="https://github.com/user-attachments/assets/6e8c5398-03ff-4604-b0ad-9afb603d3163" />
+
+
+
+<img width="292" height="607" alt="image" src="https://github.com/user-attachments/assets/acd6a894-c732-4999-ad3b-2ac4a02a1b99" />
+
+
+
+
+
 ## Pao D'Casa - Aplicativo de Compras de Padaria
 ### O projeto Pao D'Casa é um aplicativo desenvolvido como parte do meu projeto final no curso de Análise e Desenvolvimento de Sistemas, em colaboração com a equipe de dev's do projeto. O PaoD'Casa tem como objetivo facilitar a compra de produtos de padaria, permitindo que os clientes adquiram itens sem a necessidade de sair de casa.
 ###  Para a criação do aplicativo, empregamos o React Native no desenvolvimento do front-end. Quanto ao back-end, optamos por utilizar Next.js e Prisma, enquanto o banco de dados foi implementado utilizando MongoDB.
